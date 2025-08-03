@@ -1,0 +1,58 @@
+vich_uploader:
+    db_driver: orm
+
+    mappings:
+        projects_illustration_card:
+            uri_prefix: /image/project/card
+            upload_destination: '%kernel.project_dir%/public/image/project/card'
+            delete_on_remove: true
+            namer: vich_uploader.namer_origname
+
+        projects_illustration_background:
+            uri_prefix: /image/project/background
+            upload_destination: '%kernel.project_dir%/public/image/project/background'
+            delete_on_remove: true
+            namer: vich_uploader.namer_origname
+
+        projects_illustration_title:
+            uri_prefix: /image/project/title
+            upload_destination: '%kernel.project_dir%/public/image/project/title'
+            delete_on_remove: true
+            namer: vich_uploader.namer_origname
+
+        society_illustration:
+            uri_prefix: /image/society
+            upload_destination: '%kernel.project_dir%/public/image/society'
+            delete_on_remove: true
+            namer: vich_uploader.namer_origname
+
+        school_illustration:
+            uri_prefix: /image/school
+            upload_destination: '%kernel.project_dir%/public/image/school'
+            delete_on_remove: true
+            namer: vich_uploader.namer_origname
+
+        collaborators_illustration:
+            uri_prefix: /image/collaborator/illustration
+            upload_destination: '%kernel.project_dir%/public/image/collaborator/illustration'
+            delete_on_remove: true
+            namer: vich_uploader.namer_origname
+
+        collaborators_profile:
+            uri_prefix: /image/collaborator/profile
+            upload_destination: '%kernel.project_dir%/public/image/collaborator/profile'
+            delete_on_remove: true
+            namer: vich_uploader.namer_origname
+
+        trophy_illustration:
+            uri_prefix: /image/trophy
+            upload_destination: '%kernel.project_dir%/public/image/trophy'
+            delete_on_remove: true
+            namer: vich_uploader.namer_origname
+
+        technology_illustration:
+            uri_prefix: /image/technology
+            upload_destination: '%kernel.project_dir%/public/image/technology'
+            delete_on_remove: true
+            namer: vich_uploader.namer_origname
+
