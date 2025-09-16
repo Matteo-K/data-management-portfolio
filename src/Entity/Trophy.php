@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\TrophyRepository;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: TrophyRepository::class)]
 #[Vich\Uploadable]
@@ -17,38 +18,53 @@ class Trophy
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
+    #[Groups(['export'])]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['export'])]
     #[ORM\Column(type: 'string', length: 255, enumType: DataStatut::class)]
     private DataStatut $statut;
 
+    #[Groups(['export'])]
     #[ORM\Column(type: 'string', length: 255, enumType: TrophyType::class)]
     private TrophyType $type;
 
+    #[Groups(['export'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[Groups(['export'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
+    #[Groups(['export'])]
     #[Vich\UploadableField(mapping: 'trophy_illustration', fileNameProperty: 'illustrationName')]
     private ?File $illustrationFile = null;
 
+    #[Groups(['export'])]
     #[ORM\Column(nullable: true)]
     private ?string $illustrationName = null;
 
+    #[Groups(['export'])]
     #[ORM\Column]
     private ?bool $accomplished = null;
 
-    #[ORM\ManyToOne(inversedBy: 'trophies')]
-    private ?Project $project = null;
-
+    #[Groups(['export'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[Groups(['export'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    #[Groups(['export'])]
+    #[ORM\ManyToOne(inversedBy: 'trophies')]
+    private ?TrophyRoad $trophyRoad = null;
+
+    public function __construct() {
+        $this->statut = DataStatut::ACTIF;
+    }
 
     #[ORM\PrePersist]
     public function prePersist(): void
@@ -70,8 +86,7 @@ class Trophy
 
     public function __toString(): string
     {
-        $project = $this->getProject();
-        return ($project != null ? $project->__toString() : "ID " . $this->getId()) . " : \"" . $this->getName() . "\"";
+        return $this->getName();
     }
 
     function getStatut() : DataStatut {
@@ -152,18 +167,6 @@ class Trophy
         return $this;
     }
 
-    public function getProject(): ?Project
-    {
-        return $this->project;
-    }
-
-    public function setProject(?Project $project): static
-    {
-        $this->project = $project;
-
-        return $this;
-    }
-
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
@@ -184,6 +187,18 @@ class Trophy
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getTrophyRoad(): ?TrophyRoad
+    {
+        return $this->trophyRoad;
+    }
+
+    public function setTrophyRoad(?TrophyRoad $trophyRoad): static
+    {
+        $this->trophyRoad = $trophyRoad;
 
         return $this;
     }

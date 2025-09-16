@@ -7,7 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\{AssociationField, DateTimeField, DateField, IdField, TextField, TextEditorField, ChoiceField, ImageField, Field, FormField};
+use EasyCorp\Bundle\EasyAdminBundle\Field\{AssociationField, DateTimeField, DateField, IdField, TextField, NumberField, TextEditorField, ChoiceField, ImageField, Field, FormField};
 use App\Enum\DataStatut;
 
 class TechnologyCrudController extends AbstractCrudController
@@ -30,6 +30,9 @@ class TechnologyCrudController extends AbstractCrudController
 
             TextField::new('name')->setFormTypeOptions(['required' => true])
                 ->setLabel('Nom'),
+
+            NumberField::new('priority')->setFormTypeOptions(['required' => true])
+                ->setLabel('Priorité'),
 
             // Enums
             ChoiceField::new('statut')

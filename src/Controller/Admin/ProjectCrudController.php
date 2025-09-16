@@ -118,11 +118,11 @@ class ProjectCrudController extends AbstractCrudController
                 ->setLabel('Technologies')
                 ->hideOnIndex(),
 
-            AssociationField::new('trophies')
-                ->setCrudController(\App\Controller\Admin\TrophyCrudController::class)
+            AssociationField::new('trophyRoads')
+                ->setCrudController(\App\Controller\Admin\TrophyRoadCrudController::class)
                 ->setFormTypeOptions(['by_reference' => false])
                 ->autocomplete()
-                ->setLabel('Trophées')
+                ->setLabel('Routes des trophées')
                 ->hideOnIndex(),
 
             ImageField::new('illustrationBackgroundName')
@@ -135,7 +135,6 @@ class ProjectCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
         return $actions
-        // Affiche le bouton "Détail" dans la liste
         ->add(Crud::PAGE_INDEX, Action::DETAIL);
     }
 }

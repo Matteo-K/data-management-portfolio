@@ -2,20 +2,19 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Trophy;
+use App\Entity\TrophyRoad;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\{AssociationField, DateTimeField, DateField, IdField, TextField, TextEditorField, ChoiceField, ImageField, Field, FormField, BooleanField};
 use App\Enum\DataStatut;
-use App\Enum\TrophyType;
 
-class TrophyCrudController extends AbstractCrudController
+class TrophyRoadCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Trophy::class;
+        return TrophyRoad::class;
     }
 
     public function configureFields(string $pageName): iterable
@@ -24,21 +23,6 @@ class TrophyCrudController extends AbstractCrudController
             IdField::new('id')->onlyOnIndex()
                 ->setLabel('ID'),
 
-            ImageField::new('illustrationName')
-                ->setBasePath('/image/trophy')
-                ->hideOnForm()
-                ->setLabel('Illustration au format carte'),
-
-            TextField::new('name')->setFormTypeOptions(['required' => true])
-                ->setLabel('Nom'),
-
-            TextEditorField::new('description')
-                ->setLabel('Description')
-                ->hideOnIndex(),
-
-            BooleanField::new('accomplished')
-                ->setLabel('Est t\'accompli ?'),
-
             // Enums
             ChoiceField::new('statut')
                 ->setChoices(array_combine(
@@ -46,20 +30,26 @@ class TrophyCrudController extends AbstractCrudController
                     DataStatut::cases()
                 ))
                 ->setLabel('Statut'),
-            
-            ChoiceField::new('type')
-                ->setChoices(array_combine(
-                    array_map(fn($e) => $e->name, TrophyType::cases()),
-                    TrophyType::cases()
-                ))
-                ->setLabel('Type'),
 
 
-            // Uploads (fichiers d'entrée)
-            Field::new('illustrationFile')
-                ->setFormType(\Symfony\Component\Form\Extension\Core\Type\FileType::class)
-                ->onlyOnForms()
-                ->setLabel('Illustration du trophée'),
+            // Relations
+            AssociationField::new('project')
+                ->setCrudController(\App\Controller\Admin\ProjectCrudController::class)
+                ->setFormTypeOptions(['by_reference' => false])
+                ->autocomplete()
+                ->setLabel('Projets'),
+
+            // ➡️ Nouveau champ "Nombre de trophées"
+            Field::new('trophiesCount', 'Nombre de trophées')
+                ->onlyOnIndex()
+                ->formatValue(fn ($value, $entity) => $entity->getTrophiesCount()),
+
+            AssociationField::new('trophies')
+                ->setCrudController(\App\Controller\Admin\TrophyCrudController::class)
+                ->setFormTypeOptions(['by_reference' => false])
+                ->autocomplete()
+                ->setLabel('Trophées')
+                ->hideOnIndex(),
 
             // Dates
             DateTimeField::new('createdAt')
@@ -71,14 +61,6 @@ class TrophyCrudController extends AbstractCrudController
                 ->onlyOnDetail()
                 ->hideOnIndex()
                 ->setLabel('Mis à jour le'),
-
-            // Relations
-            AssociationField::new('trophyRoad')
-                ->setCrudController(\App\Controller\Admin\TrophyRoadCrudController::class)
-                ->setFormTypeOptions(['by_reference' => false])
-                ->autocomplete()
-                ->setLabel('Routes des trophées')
-                ->hideOnIndex(),
         ];
     }
 

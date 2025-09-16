@@ -33,6 +33,9 @@ Cette application me permet de gérer facilement le contenu de mon portfolio à 
 - Interface responsive et moderne
 - Export des données en json
 
-## 🔄 Export des données
+## 🔄 Utilisation des données
 
-En cours de développement
+### Export
+
+
+### Import

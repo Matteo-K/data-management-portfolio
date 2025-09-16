@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CollaboratorRepository::class)]
 #[Vich\Uploadable]
@@ -17,44 +18,57 @@ class Collaborator
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
+    #[Groups(['export'])]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['export'])]
     #[ORM\Column(type: 'string', length: 255, enumType: DataStatut::class)]
     private DataStatut $statut;
 
+    #[Groups(['export'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $surname = null;
 
+    #[Groups(['export'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
 
+    #[Groups(['export'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
+    #[Groups(['export'])]
     #[Vich\UploadableField(mapping: 'collaborators_illustration', fileNameProperty: 'illustrationName')]
     private ?File $illustrationFile = null;
 
+    #[Groups(['export'])]
     #[ORM\Column(nullable: true)]
     private ?string $illustrationName = null;
 
+    #[Groups(['export'])]
     #[Vich\UploadableField(mapping: 'collaborators_profile', fileNameProperty: 'profileName')]
     private ?File $profileFile = null;
 
+    #[Groups(['export'])]
     #[ORM\Column(nullable: true)]
     private ?string $profileName = null;
 
+    #[Groups(['export'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[Groups(['export'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[Groups(['export'])]
     #[ORM\ManyToMany(targetEntity: Project::class, mappedBy: 'collaborators')]
     private Collection $projects;
 
     public function __construct()
     {
+        $this->statut = DataStatut::ACTIF;
         $this->projects = new ArrayCollection();
     }
 

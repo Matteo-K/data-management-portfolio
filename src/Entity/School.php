@@ -10,6 +10,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SchoolRepository::class)]
 #[Vich\Uploadable]
@@ -18,38 +19,49 @@ class School
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
+    #[Groups(['export'])]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['export'])]
     #[ORM\Column(type: 'string', length: 255, enumType: DataStatut::class)]
     private DataStatut $statut;
 
+    #[Groups(['export'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[Groups(['export'])]
     #[ORM\Column(length: 255)]
     private ?string $link_web = null;
 
+    #[Groups(['export'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
+    #[Groups(['export'])]
     #[ORM\OneToMany(targetEntity: Project::class, mappedBy: 'school', cascade: ['persist', 'remove'])]
     private Collection $projects;
 
+    #[Groups(['export'])]
     #[Vich\UploadableField(mapping: 'school_illustration', fileNameProperty: 'logoName')]
     private ?File $logoFile = null;
 
+    #[Groups(['export'])]
     #[ORM\Column(nullable: true)]
     private ?string $logoName = null;
 
+    #[Groups(['export'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[Groups(['export'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
     public function __construct()
     {
+        $this->statut = DataStatut::ACTIF;
         $this->projects = new ArrayCollection();
     }
 

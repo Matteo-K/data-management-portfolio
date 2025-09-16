@@ -3,16 +3,15 @@
 namespace App\Entity;
 
 use App\Enum\DataStatut;
-use App\Repository\TechnologyRepository;
+use App\Repository\TrophyRoadRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ORM\Entity(repositoryClass: TechnologyRepository::class)]
-#[Vich\Uploadable]
+#[ORM\Entity(repositoryClass: TrophyRoadRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Technology
+class TrophyRoad
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -25,20 +24,16 @@ class Technology
     private DataStatut $statut;
 
     #[Groups(['export'])]
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'string', length: 255)]
     private ?string $name = null;
 
     #[Groups(['export'])]
-    #[Vich\UploadableField(mapping: 'technology_illustration', fileNameProperty: 'illustrationName')]
-    private ?File $illustrationFile = null;
+    #[ORM\ManyToOne(inversedBy: 'trophyRoads')]
+    private ?Project $project = null;
 
     #[Groups(['export'])]
-    #[ORM\Column(nullable: true)]
-    private ?string $illustrationName = null;
-
-    #[Groups(['export'])]
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $date = null;
+    #[ORM\OneToMany(targetEntity: Trophy::class, mappedBy: 'trophyRoad')]
+    private Collection $trophies;
 
     #[Groups(['export'])]
     #[ORM\Column(nullable: true)]
@@ -48,13 +43,14 @@ class Technology
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[Groups(['export'])]
-    #[ORM\Column(nullable: false)]
-    private int $priority;
-
-    public function __construct() {
-        $this->priority = 0;
+    public function __construct()
+    {
         $this->statut = DataStatut::ACTIF;
+        $this->trophies = new ArrayCollection();
+    }
+
+    public function __toString() : string {
+        return $this->getName() ? $this->getId() . '. '. $this->getName() : $this->getId();
     }
 
     #[ORM\PrePersist]
@@ -73,11 +69,6 @@ class Technology
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function __toString(): string
-    {
-        return $this->getName();
     }
 
     function getStatut() : DataStatut {
@@ -101,42 +92,53 @@ class Technology
         return $this;
     }
 
-    public function getIllustrationFile(): ?File
+    public function getProject(): ?Project
     {
-        return $this->illustrationFile;
+        return $this->project;
     }
 
-    public function setIllustrationFile(?File $illustrationFile): self
+    public function setProject(?Project $project): static
     {
-        $this->illustrationFile = $illustrationFile;
-        if ($illustrationFile) {
-            $this->illustrationName = $illustrationFile->getFilename();
+        $this->project = $project;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Trophy>
+     */
+    public function getTrophies(): Collection
+    {
+        return $this->trophies;
+    }
+
+    public function addTrophy(Trophy $trophy): static
+    {
+        if (!$this->trophies->contains($trophy)) {
+            $this->trophies->add($trophy);
+            $trophy->setTrophyRoad($this);
         }
-        $this->updatedAt = new \DateTimeImmutable();
-        return $this;
-    }
-
-    public function getIllustrationName(): ?string
-    {
-        return $this->illustrationName;
-    }
-
-    public function setIllustrationName(?string $illustrationName): void
-    {
-        $this->illustrationName = $illustrationName;
-    }
-
-    public function getDate(): ?\DateTimeImmutable
-    {
-        return $this->date;
-    }
-
-    public function setDate(?\DateTimeImmutable $date): static
-    {
-        $this->date = $date;
 
         return $this;
     }
+
+    public function removeTrophy(Trophy $trophy): static
+    {
+        if ($this->trophies->removeElement($trophy)) {
+            // set the owning side to null (unless already changed)
+            if ($trophy->getTrophyRoad() === $this) {
+                $trophy->setTrophyRoad(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getTrophiesCount(): int
+    {
+        return $this->trophies->count();
+    }
+
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
@@ -158,18 +160,6 @@ class Technology
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    public function getPriority(): ?int
-    {
-        return $this->priority;
-    }
-
-    public function setPriority(int $priority): static
-    {
-        $this->priority = $priority;
 
         return $this;
     }

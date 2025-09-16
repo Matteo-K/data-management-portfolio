@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
 #[Vich\Uploadable]
@@ -18,75 +19,97 @@ class Project
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
+    #[Groups(['export'])]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['export'])]
     #[ORM\Column(type: 'string', length: 255, enumType: DataStatut::class)]
     private DataStatut $statut;
 
+    #[Groups(['export'])]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
+    #[Groups(['export'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
+    #[Groups(['export'])]
     #[ORM\OneToMany(targetEntity: ProjectTechnology::class, mappedBy: 'project')]
     private Collection $projectTechnologies;
 
+    #[Groups(['export'])]
     #[ORM\Column(type: 'string', length: 255, enumType: ProjectObjective::class)]
     private ProjectObjective $objective;
 
+    #[Groups(['export'])]
     #[ORM\ManyToOne(inversedBy: 'projects', cascade: ['persist'])]
     private ?Society $society = null;
 
+    #[Groups(['export'])]
     #[ORM\ManyToOne(inversedBy: 'projects', cascade: ['persist'])]
     private ?School $school = null;
 
-    #[ORM\OneToMany(targetEntity: Trophy::class, mappedBy: 'project')]
-    private Collection $trophies;
-
+    #[Groups(['export'])]
     #[Vich\UploadableField(mapping: 'projects_illustration_card', fileNameProperty: 'illustrationCardName')]
     private ?File $illustrationCardFile = null;
 
+    #[Groups(['export'])]
     #[ORM\Column(nullable: true)]
     private ?string $illustrationCardName = null;
 
+    #[Groups(['export'])]
     #[Vich\UploadableField(mapping: 'projects_illustration_background', fileNameProperty: 'illustrationBackgroundName')]
     private ?File $illustrationBackgroundFile = null;
 
+    #[Groups(['export'])]
     #[ORM\Column(nullable: true)]
     private ?string $illustrationBackgroundName = null;
 
+    #[Groups(['export'])]
     #[Vich\UploadableField(mapping: 'projects_illustration_title', fileNameProperty: 'illustrationTitleName')]
     private ?File $illustrationTitleFile = null;
 
+    #[Groups(['export'])]
     #[ORM\Column(nullable: true)]
     private ?string $illustrationTitleName = null;
 
+    #[Groups(['export'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $date = null;
 
     // Liens
+    #[Groups(['export'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $web = null;
 
+    #[Groups(['export'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $github = null;
 
+    #[Groups(['export'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[Groups(['export'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    #[Groups(['export'])]
     #[ORM\ManyToMany(targetEntity: Collaborator::class, inversedBy: 'projects')]
     private Collection $collaborators;
 
+    #[Groups(['export'])]
+    #[ORM\OneToMany(targetEntity: TrophyRoad::class, mappedBy: 'project')]
+    private Collection $trophyRoads;
+
     public function __construct()
     {
+        $this->statut = DataStatut::ACTIF;
         $this->projectTechnologies = new ArrayCollection();
-        $this->trophies = new ArrayCollection();
         $this->collaborators = new ArrayCollection();
+        $this->trophyRoads = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -204,36 +227,6 @@ class Project
     public function setSchool(?School $school): static
     {
         $this->school = $school;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Trophy>
-     */
-    public function getTrophies(): Collection
-    {
-        return $this->trophies;
-    }
-
-    public function addTrophy(Trophy $trophy): static
-    {
-        if (!$this->trophies->contains($trophy)) {
-            $this->trophies->add($trophy);
-            $trophy->setProject($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTrophy(Trophy $trophy): static
-    {
-        if ($this->trophies->removeElement($trophy)) {
-            // set the owning side to null (unless already changed)
-            if ($trophy->getProject() === $this) {
-                $trophy->setProject(null);
-            }
-        }
 
         return $this;
     }
@@ -393,6 +386,36 @@ class Project
     public function removeCollaborator(Collaborator $collaborator): static
     {
         $this->collaborators->removeElement($collaborator);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TrophyRoad>
+     */
+    public function getTrophyRoads(): Collection
+    {
+        return $this->trophyRoads;
+    }
+
+    public function addTrophyRoad(TrophyRoad $trophyRoad): static
+    {
+        if (!$this->trophyRoads->contains($trophyRoad)) {
+            $this->trophyRoads->add($trophyRoad);
+            $trophyRoad->setProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTrophyRoad(TrophyRoad $trophyRoad): static
+    {
+        if ($this->trophyRoads->removeElement($trophyRoad)) {
+            // set the owning side to null (unless already changed)
+            if ($trophyRoad->getProject() === $this) {
+                $trophyRoad->setProject(null);
+            }
+        }
 
         return $this;
     }

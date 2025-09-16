@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Enum\DataStatut;
 use App\Repository\ProjectTechnologyRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ProjectTechnologyRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -12,30 +13,41 @@ class ProjectTechnology
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
+    #[Groups(['export'])]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Groups(['export'])]
     #[ORM\Column(type: 'string', length: 255, enumType: DataStatut::class)]
     private DataStatut $statut;
 
+    #[Groups(['export'])]
     #[ORM\ManyToOne(inversedBy: 'projectTechnologies')]
     private ?Project $project = null;
 
+    #[Groups(['export'])]
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Technology $technologie = null;
 
+    #[Groups(['export'])]
     #[ORM\Column(nullable: true)]
     private ?float $pourcentage_using = null;
 
+    #[Groups(['export'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[Groups(['export'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
     public function __toString(): string
     {
         return $this->getPourcentageUsing() . '% de ' . ($this->getTechnologie()->__toString() ?? 'Technologie anonyme');
+    }
+
+    public function __construct() {
+        $this->statut = DataStatut::ACTIF;
     }
 
     #[ORM\PrePersist]
