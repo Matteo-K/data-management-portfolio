@@ -18,51 +18,61 @@ class Collaborator
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[Groups(['export'])]
+    #[Groups(['collaborator', 'all'])]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['export'])]
+    #[Groups(['collaborator'])]
     #[ORM\Column(type: 'string', length: 255, enumType: DataStatut::class)]
     private DataStatut $statut;
 
-    #[Groups(['export'])]
+    #[Groups(['collaborator'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $surname = null;
 
-    #[Groups(['export'])]
+    #[Groups(['collaborator'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
 
-    #[Groups(['export'])]
+    #[Groups(['collaborator'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
-    #[Groups(['export'])]
     #[Vich\UploadableField(mapping: 'collaborators_illustration', fileNameProperty: 'illustrationName')]
     private ?File $illustrationFile = null;
 
-    #[Groups(['export'])]
+    #[Groups(['collaborator'])]
     #[ORM\Column(nullable: true)]
     private ?string $illustrationName = null;
 
-    #[Groups(['export'])]
     #[Vich\UploadableField(mapping: 'collaborators_profile', fileNameProperty: 'profileName')]
     private ?File $profileFile = null;
 
-    #[Groups(['export'])]
+    #[Groups(['collaborator'])]
     #[ORM\Column(nullable: true)]
     private ?string $profileName = null;
 
-    #[Groups(['export'])]
+    #[Groups(['collaborator'])]
+    #[ORM\Column(nullable: true)]
+    private ?string $linkLinkedin = null;
+
+    #[Groups(['collaborator'])]
+    #[ORM\Column(nullable: true)]
+    private ?string $linkGithub = null;
+
+    #[Groups(['collaborator'])]
+    #[ORM\Column(nullable: true)]
+    private ?string $linkWeb = null;
+
+    #[Groups(['collaborator'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[Groups(['export'])]
+    #[Groups(['collaborator'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[Groups(['export'])]
+    #[Groups(['collaborator'])]
     #[ORM\ManyToMany(targetEntity: Project::class, mappedBy: 'collaborators')]
     private Collection $projects;
 
@@ -90,6 +100,7 @@ class Collaborator
         return $this->getName() . " " . $this->getSurname();
     }
 
+    #[Groups(['collaborator', 'all'])]
     public function getId(): ?int
     {
         return $this->id;
@@ -188,6 +199,36 @@ class Collaborator
     public function setProfileName(?string $profileName): void
     {
         $this->profileName = $profileName;
+    }
+
+    public function getLinkLinkedin(): ?string
+    {
+        return $this->linkLinkedin;
+    }
+
+    public function setLinkLinkedin(?string $linkLinkedin): void
+    {
+        $this->linkLinkedin = $linkLinkedin;
+    }
+
+    public function getLinkGithub(): ?string
+    {
+        return $this->linkGithub;
+    }
+
+    public function setLinkGithub(?string $linkGithub): void
+    {
+        $this->linkGithub = $linkGithub;
+    }
+
+    public function getLinkWeb(): ?string
+    {
+        return $this->linkWeb;
+    }
+
+    public function setLinkWeb(?string $linkWeb): void
+    {
+        $this->linkWeb = $linkWeb;
     }
 
     /**

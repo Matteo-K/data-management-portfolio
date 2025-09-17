@@ -19,43 +19,42 @@ class School
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[Groups(['export'])]
+    #[Groups(['school', 'all'])]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['export'])]
+    #[Groups(['school'])]
     #[ORM\Column(type: 'string', length: 255, enumType: DataStatut::class)]
     private DataStatut $statut;
 
-    #[Groups(['export'])]
+    #[Groups(['school'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['export'])]
+    #[Groups(['school'])]
     #[ORM\Column(length: 255)]
     private ?string $link_web = null;
 
-    #[Groups(['export'])]
+    #[Groups(['school'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[Groups(['export'])]
+    #[Groups(['school'])]
     #[ORM\OneToMany(targetEntity: Project::class, mappedBy: 'school', cascade: ['persist', 'remove'])]
     private Collection $projects;
 
-    #[Groups(['export'])]
     #[Vich\UploadableField(mapping: 'school_illustration', fileNameProperty: 'logoName')]
     private ?File $logoFile = null;
 
-    #[Groups(['export'])]
+    #[Groups(['school'])]
     #[ORM\Column(nullable: true)]
     private ?string $logoName = null;
 
-    #[Groups(['export'])]
+    #[Groups(['school'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[Groups(['export'])]
+    #[Groups(['school'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 

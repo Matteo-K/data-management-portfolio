@@ -19,88 +19,85 @@ class Project
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[Groups(['export'])]
+    #[Groups(['project', 'all'])]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['export'])]
+    #[Groups(['project'])]
     #[ORM\Column(type: 'string', length: 255, enumType: DataStatut::class)]
     private DataStatut $statut;
 
-    #[Groups(['export'])]
+    #[Groups(['project'])]
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[Groups(['export'])]
+    #[Groups(['project'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
-    #[Groups(['export'])]
+    #[Groups(['project'])]
     #[ORM\OneToMany(targetEntity: ProjectTechnology::class, mappedBy: 'project')]
     private Collection $projectTechnologies;
 
-    #[Groups(['export'])]
+    #[Groups(['project'])]
     #[ORM\Column(type: 'string', length: 255, enumType: ProjectObjective::class)]
     private ProjectObjective $objective;
 
-    #[Groups(['export'])]
+    #[Groups(['project'])]
     #[ORM\ManyToOne(inversedBy: 'projects', cascade: ['persist'])]
     private ?Society $society = null;
 
-    #[Groups(['export'])]
+    #[Groups(['project'])]
     #[ORM\ManyToOne(inversedBy: 'projects', cascade: ['persist'])]
     private ?School $school = null;
 
-    #[Groups(['export'])]
     #[Vich\UploadableField(mapping: 'projects_illustration_card', fileNameProperty: 'illustrationCardName')]
     private ?File $illustrationCardFile = null;
 
-    #[Groups(['export'])]
+    #[Groups(['project'])]
     #[ORM\Column(nullable: true)]
     private ?string $illustrationCardName = null;
 
-    #[Groups(['export'])]
     #[Vich\UploadableField(mapping: 'projects_illustration_background', fileNameProperty: 'illustrationBackgroundName')]
     private ?File $illustrationBackgroundFile = null;
 
-    #[Groups(['export'])]
+    #[Groups(['project'])]
     #[ORM\Column(nullable: true)]
     private ?string $illustrationBackgroundName = null;
 
-    #[Groups(['export'])]
     #[Vich\UploadableField(mapping: 'projects_illustration_title', fileNameProperty: 'illustrationTitleName')]
     private ?File $illustrationTitleFile = null;
 
-    #[Groups(['export'])]
+    #[Groups(['project'])]
     #[ORM\Column(nullable: true)]
     private ?string $illustrationTitleName = null;
 
-    #[Groups(['export'])]
+    #[Groups(['project'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $date = null;
 
     // Liens
-    #[Groups(['export'])]
+    #[Groups(['project'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $web = null;
 
-    #[Groups(['export'])]
+    #[Groups(['project'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $github = null;
 
-    #[Groups(['export'])]
+    #[Groups(['project'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[Groups(['export'])]
+    #[Groups(['project'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[Groups(['export'])]
+    #[Groups(['project'])]
     #[ORM\ManyToMany(targetEntity: Collaborator::class, inversedBy: 'projects')]
     private Collection $collaborators;
 
-    #[Groups(['export'])]
+    #[Groups(['project'])]
     #[ORM\OneToMany(targetEntity: TrophyRoad::class, mappedBy: 'project')]
     private Collection $trophyRoads;
 
@@ -130,6 +127,7 @@ class Project
         $this->updatedAt = new \DateTimeImmutable();
     }
 
+    #[Groups(['project', 'all'])]
     public function getId(): ?int
     {
         return $this->id;

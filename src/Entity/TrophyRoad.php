@@ -15,31 +15,31 @@ class TrophyRoad
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[Groups(['export'])]
+    #[Groups(['trophyRoad', 'all'])]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['export'])]
+    #[Groups(['trophyRoad'])]
     #[ORM\Column(type: 'string', length: 255, enumType: DataStatut::class)]
     private DataStatut $statut;
 
-    #[Groups(['export'])]
+    #[Groups(['trophyRoad'])]
     #[ORM\Column(type: 'string', length: 255)]
     private ?string $name = null;
 
-    #[Groups(['export'])]
+    #[Groups(['trophyRoad'])]
     #[ORM\ManyToOne(inversedBy: 'trophyRoads')]
     private ?Project $project = null;
 
-    #[Groups(['export'])]
+    #[Groups(['trophyRoad'])]
     #[ORM\OneToMany(targetEntity: Trophy::class, mappedBy: 'trophyRoad')]
     private Collection $trophies;
 
-    #[Groups(['export'])]
+    #[Groups(['trophyRoad'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[Groups(['export'])]
+    #[Groups(['trophyRoad'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 

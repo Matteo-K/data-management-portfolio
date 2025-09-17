@@ -12,34 +12,69 @@ use Doctrine\ORM\EntityManagerInterface;
 #[Route('/data')]
 class ManageDataController extends AbstractController
 {
+    private function getEntityRelationFields(string $entityClass, EntityManagerInterface $em): array
+    {
+        $metadata = $em->getClassMetadata($entityClass);
+        $relationFields = [];
+        foreach ($metadata->getAssociationMappings() as $fieldName => $mapping) {
+            $relationFields[] = $fieldName;
+        }
+        return $relationFields;
+    }
+
     #[Route('/export', name: 'data.export')]
     public function exportJsonAction(SerializerInterface $serializer, EntityManagerInterface $em): Response
     {
+
         $entitiesToExport = [
-            'collaborator' => \App\Entity\Collaborator::class,
-            'projet' => \App\Entity\Project::class,
-            'projetTechnology' => \App\Entity\ProjectTechnology::class,
-            'school' => \App\Entity\School::class,
-            'society' => \App\Entity\Society::class,
-            'technology' => \App\Entity\Technology::class,
-            'trophy' => \App\Entity\Trophy::class,
-            'trophyRoad' => \App\Entity\TrophyRoad::class,
+            'collaborator' => ['class' => \App\Entity\Collaborator::class, 'group' => 'collaborator'],
+            'project' => ['class' => \App\Entity\Project::class, 'group' => 'project'],
+            'projectTechnology' => ['class' => \App\Entity\ProjectTechnology::class, 'group' => 'projectTechnology'],
+            'school' => ['class' => \App\Entity\School::class, 'group' => 'school'],
+            'society' => ['class' => \App\Entity\Society::class, 'group' => 'society'],
+            'technology' => ['class' => \App\Entity\Technology::class, 'group' => 'technology'],
+            'trophy' => ['class' => \App\Entity\Trophy::class, 'group' => 'trophy'],
+            'trophyRoad' => ['class' => \App\Entity\TrophyRoad::class, 'group' => 'trophyRoad'],
         ];
 
         $zipFile = tempnam(sys_get_temp_dir(), 'export_') . '.zip';
         $zip = new \ZipArchive();
         $zip->open($zipFile, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
 
-        foreach ($entitiesToExport as $filename => $entityClass) {
-            $data = $em->getRepository($entityClass)->findAll();
+        foreach ($entitiesToExport as $filename => $entityData) {
+            $data = $em->getRepository($entityData['class'])->findAll();
 
-            $json = $serializer->serialize($data, 'json', [
-                'groups' => ['export'],
+            $genericCallback = function ($innerObject) {
+                // Cas 1: Collection (many-to-many, one-to-many) -> array d'IDs
+                if ($innerObject instanceof \Doctrine\Common\Collections\Collection) {
+                    return $innerObject->map(fn($item) => $item->getId())->toArray();
+                }
+                
+                // Cas 2: Objet avec getId (many-to-one) -> ID simple
+                if (is_object($innerObject) && method_exists($innerObject, 'getId')) {
+                    return $innerObject->getId();
+                }
+                
+                // Cas 3: Autre (null, scalaire, etc.) -> retourner tel quel
+                return $innerObject;
+            };
+            
+
+            $relationFields = $this->getEntityRelationFields($entityData['class'], $em);
+            $callbacks = [];
+            foreach ($relationFields as $field) {
+                $callbacks[$field] = $genericCallback;
+            }
+
+            $context = [
+                'groups' => [$entityData['group']],
+                \Symfony\Component\Serializer\Normalizer\AbstractNormalizer::CALLBACKS => $callbacks,
                 'circular_reference_handler' => function ($object) {
                     return method_exists($object, 'getId') ? $object->getId() : null;
                 },
-            ]);
+            ];
 
+            $json = $serializer->serialize($data, 'json', $context);
             $zip->addFromString($filename . '.json', $json);
         }
 

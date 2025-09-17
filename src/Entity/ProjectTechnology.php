@@ -13,31 +13,31 @@ class ProjectTechnology
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[Groups(['export'])]
+    #[Groups(['projectTechnology', 'all'])]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['export'])]
+    #[Groups(['projectTechnology'])]
     #[ORM\Column(type: 'string', length: 255, enumType: DataStatut::class)]
     private DataStatut $statut;
 
-    #[Groups(['export'])]
+    #[Groups(['projectTechnology'])]
     #[ORM\ManyToOne(inversedBy: 'projectTechnologies')]
     private ?Project $project = null;
 
-    #[Groups(['export'])]
+    #[Groups(['projectTechnology'])]
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Technology $technologie = null;
 
-    #[Groups(['export'])]
+    #[Groups(['projectTechnology'])]
     #[ORM\Column(nullable: true)]
     private ?float $pourcentage_using = null;
 
-    #[Groups(['export'])]
+    #[Groups(['projectTechnology'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[Groups(['export'])]
+    #[Groups(['projectTechnology'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 

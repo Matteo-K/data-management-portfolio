@@ -16,39 +16,38 @@ class Technology
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[Groups(['export'])]
+    #[Groups(['technology', 'all'])]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['export'])]
+    #[Groups(['technology'])]
     #[ORM\Column(type: 'string', length: 255, enumType: DataStatut::class)]
     private DataStatut $statut;
 
-    #[Groups(['export'])]
+    #[Groups(['technology'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['export'])]
     #[Vich\UploadableField(mapping: 'technology_illustration', fileNameProperty: 'illustrationName')]
     private ?File $illustrationFile = null;
 
-    #[Groups(['export'])]
+    #[Groups(['technology'])]
     #[ORM\Column(nullable: true)]
     private ?string $illustrationName = null;
 
-    #[Groups(['export'])]
+    #[Groups(['technology'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $date = null;
 
-    #[Groups(['export'])]
+    #[Groups(['technology'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[Groups(['export'])]
+    #[Groups(['technology'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[Groups(['export'])]
+    #[Groups(['technology'])]
     #[ORM\Column(nullable: false)]
     private int $priority;
 

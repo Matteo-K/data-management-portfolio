@@ -18,47 +18,46 @@ class Trophy
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[Groups(['export'])]
+    #[Groups(['trophy', 'all'])]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['export'])]
+    #[Groups(['trophy'])]
     #[ORM\Column(type: 'string', length: 255, enumType: DataStatut::class)]
     private DataStatut $statut;
 
-    #[Groups(['export'])]
+    #[Groups(['trophy'])]
     #[ORM\Column(type: 'string', length: 255, enumType: TrophyType::class)]
     private TrophyType $type;
 
-    #[Groups(['export'])]
+    #[Groups(['trophy'])]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[Groups(['export'])]
+    #[Groups(['trophy'])]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[Groups(['export'])]
     #[Vich\UploadableField(mapping: 'trophy_illustration', fileNameProperty: 'illustrationName')]
     private ?File $illustrationFile = null;
 
-    #[Groups(['export'])]
+    #[Groups(['trophy'])]
     #[ORM\Column(nullable: true)]
     private ?string $illustrationName = null;
 
-    #[Groups(['export'])]
+    #[Groups(['trophy'])]
     #[ORM\Column]
     private ?bool $accomplished = null;
 
-    #[Groups(['export'])]
+    #[Groups(['trophy'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[Groups(['export'])]
+    #[Groups(['trophy'])]
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[Groups(['export'])]
+    #[Groups(['trophy'])]
     #[ORM\ManyToOne(inversedBy: 'trophies')]
     private ?TrophyRoad $trophyRoad = null;
 
