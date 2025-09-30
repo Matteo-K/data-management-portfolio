@@ -29,7 +29,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('Gestion des données');
         yield MenuItem::linkToCrud('Projects', 'fas fa-folder', Project::class);
         yield MenuItem::linkToCrud('Collaborators', 'fas fa-user', Collaborator::class);
-        yield MenuItem::linkToCrud('Technologies', 'fas fa-laptop-code', Technology::class);
+        yield MenuItem::linkToCrud('Technologies', 'fas fa-laptop-code', Technology::class)
+            ->setDefaultSort(['priority' => 'ASC']);
         yield MenuItem::linkToCrud('Societies', 'fas fa-building', Society::class);
         yield MenuItem::linkToCrud('Schools', 'fas fa-school', School::class);
         yield MenuItem::linkToCrud('Trophies', 'fas fa-trophy', Trophy::class);

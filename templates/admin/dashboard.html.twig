@@ -84,7 +84,7 @@
             <i class="fa fa-laptop-code fa-3x mb-3 text-primary"></i>
             <h5 class="card-title">Technologies</h5>
             <div class="d-flex justify-content-center">
-              <a href="{{ path('admin') ~ '/technology' }}" class="btn btn-primary btn-custom">
+              <a href="{{ path('admin') ~ '/technology?sort[priority]=ASC' }}" class="btn btn-primary btn-custom">
                 CRUD
               </a>
               <a href="{{ path('admin') ~ '/technology/stats' }}" class="btn btn-secondary btn-custom">
@@ -180,7 +180,29 @@
         </div>
       </div>
 
-      <h2><i class="fa fa-file-import mb-3 text-primary"></i> Import / Export des données</h2>
+      <h2><i class="fa fa-file-import mb-3 text-primary"></i> Export des données</h2>
+
+      <div class="col-md-4 mb-4">
+        <a href="{{ path('data.export') }}">
+          <div class="card shadow-sm border-0 h-100">
+            <div class="card-body text-center">
+              <i class="fas fa-file-export fa-3x mb-3 text-primary"></i>
+              <h5 class="card-title">Exporter les données</h5>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="col-md-4 mb-4">
+        <a href="{{ path('data.export.files') }}">
+          <div class="card shadow-sm border-0 h-100">
+            <div class="card-body text-center">
+              <i class="fas fa-image fa-3x mb-3 text-primary"></i>
+              <h5 class="card-title">Exporter les images</h5>
+            </div>
+          </div>
+        </a>
+      </div>
 
       <h2><i class="fa fa-external-link-alt mb-3 text-primary"></i> Liens utiles</h2>
 

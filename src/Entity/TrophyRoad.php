@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Enum\DataStatut;
+use App\Enum\RoadType;
 use App\Repository\TrophyRoadRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -22,6 +23,10 @@ class TrophyRoad
     #[Groups(['trophyRoad'])]
     #[ORM\Column(type: 'string', length: 255, enumType: DataStatut::class)]
     private DataStatut $statut;
+
+    #[Groups(['trophyRoad'])]
+    #[ORM\Column(type: 'string', length: 255, enumType: RoadType::class, nullable:True)]
+    private ?RoadType $type = null;
 
     #[Groups(['trophyRoad'])]
     #[ORM\Column(type: 'string', length: 255)]
@@ -46,11 +51,16 @@ class TrophyRoad
     public function __construct()
     {
         $this->statut = DataStatut::ACTIF;
+        $this->type = RoadType::MAIN;
         $this->trophies = new ArrayCollection();
     }
 
     public function __toString() : string {
-        return $this->getName() ? $this->getId() . '. '. $this->getName() : $this->getId();
+        return "#" . $this->getId() . " "
+            . ($this->getType() != null ? "(" . $this->getType()->value . ")": "")
+            . ($this->getName() != null ? " --- " . $this->getName() : "")
+            . ($this->getProject() != null ? " --- " . $this->getProject()->getTitle() : "")
+        ;
     }
 
     #[ORM\PrePersist]
@@ -77,6 +87,15 @@ class TrophyRoad
 
     function setStatut(DataStatut $statut) : self {
         $this->statut = $statut;
+        return $this;
+    }
+
+    function getType() : ?RoadType {
+        return $this->type;
+    }
+
+    function setType(?RoadType $type) : self {
+        $this->type = $type;
         return $this;
     }
 

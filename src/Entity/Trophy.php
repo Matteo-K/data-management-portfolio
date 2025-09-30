@@ -61,6 +61,10 @@ class Trophy
     #[ORM\ManyToOne(inversedBy: 'trophies')]
     private ?TrophyRoad $trophyRoad = null;
 
+    #[Groups(['trophy'])]
+    #[ORM\Column(nullable: false)]
+    private int $priority;
+
     public function __construct() {
         $this->statut = DataStatut::ACTIF;
     }
@@ -198,6 +202,18 @@ class Trophy
     public function setTrophyRoad(?TrophyRoad $trophyRoad): static
     {
         $this->trophyRoad = $trophyRoad;
+
+        return $this;
+    }
+
+    public function getPriority(): ?int
+    {
+        return $this->priority;
+    }
+
+    public function setPriority(int $priority): static
+    {
+        $this->priority = $priority;
 
         return $this;
     }

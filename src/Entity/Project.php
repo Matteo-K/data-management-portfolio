@@ -101,8 +101,13 @@ class Project
     #[ORM\OneToMany(targetEntity: TrophyRoad::class, mappedBy: 'project')]
     private Collection $trophyRoads;
 
+    #[Groups(['project'])]
+    #[ORM\Column(nullable: false)]
+    private int $priority;
+
     public function __construct()
     {
+        $this->priority = 0;
         $this->statut = DataStatut::ACTIF;
         $this->projectTechnologies = new ArrayCollection();
         $this->collaborators = new ArrayCollection();
@@ -414,6 +419,18 @@ class Project
                 $trophyRoad->setProject(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPriority(): ?int
+    {
+        return $this->priority;
+    }
+
+    public function setPriority(int $priority): static
+    {
+        $this->priority = $priority;
 
         return $this;
     }

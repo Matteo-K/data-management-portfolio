@@ -3,11 +3,12 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Trophy;
+use App\Controller\Admin\TrophyRoadCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\{AssociationField, DateTimeField, DateField, IdField, TextField, TextEditorField, ChoiceField, ImageField, Field, FormField, BooleanField};
+use EasyCorp\Bundle\EasyAdminBundle\Field\{AssociationField, DateTimeField, DateField, IdField, TextField, TextEditorField, NumberField, ChoiceField, ImageField, Field, FormField, BooleanField};
 use App\Enum\DataStatut;
 use App\Enum\TrophyType;
 
@@ -38,6 +39,9 @@ class TrophyCrudController extends AbstractCrudController
 
             BooleanField::new('accomplished')
                 ->setLabel('Est t\'accompli ?'),
+
+            NumberField::new('priority')->setFormTypeOptions(['required' => true])
+                ->setLabel('Priorité'),
 
             // Enums
             ChoiceField::new('statut')
@@ -74,11 +78,11 @@ class TrophyCrudController extends AbstractCrudController
 
             // Relations
             AssociationField::new('trophyRoad')
-                ->setCrudController(\App\Controller\Admin\TrophyRoadCrudController::class)
-                ->setFormTypeOptions(['by_reference' => false])
+                ->setCrudController(TrophyRoadCrudController::class)
                 ->autocomplete()
-                ->setLabel('Routes des trophées')
+                ->setLabel('Route des trophées')
                 ->hideOnIndex(),
+
         ];
     }
 

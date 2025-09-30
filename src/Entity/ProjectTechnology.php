@@ -43,7 +43,10 @@ class ProjectTechnology
 
     public function __toString(): string
     {
-        return $this->getPourcentageUsing() . '% de ' . ($this->getTechnologie()->__toString() ?? 'Technologie anonyme');
+        return "#" . $this->getId() . " --- "
+            . ($this->getProject() != null ? ($this->getProject()->getTitle() . " --- ") : "")
+            . $this->getPourcentageUsing() . '% de ' . ($this->getTechnologie()->__toString() ?? 'Technologie anonyme')
+        ;
     }
 
     public function __construct() {

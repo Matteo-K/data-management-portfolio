@@ -35,7 +35,7 @@ class ProjectTechnologyCrudController extends AbstractCrudController
             // Relations
             AssociationField::new('technologie')
                 ->setCrudController(\App\Controller\Admin\TechnologyCrudController::class)
-                ->setFormTypeOptions(['by_reference' => false])
+                ->setFormTypeOptions(['by_reference' => true])
                 ->autocomplete()
                 ->setLabel('Technologie'),
 
@@ -44,7 +44,7 @@ class ProjectTechnologyCrudController extends AbstractCrudController
 
             AssociationField::new('project')
                 ->setCrudController(\App\Controller\Admin\ProjectCrudController::class)
-                ->setFormTypeOptions(['by_reference' => false])
+                ->setFormTypeOptions(['by_reference' => true])
                 ->autocomplete()
                 ->setLabel('Projet'),
 

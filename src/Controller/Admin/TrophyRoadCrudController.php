@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\{AssociationField, DateTimeField, DateField, IdField, TextField, TextEditorField, ChoiceField, ImageField, Field, FormField, BooleanField};
 use App\Enum\DataStatut;
+use App\Enum\RoadType;
 
 class TrophyRoadCrudController extends AbstractCrudController
 {
@@ -23,6 +24,9 @@ class TrophyRoadCrudController extends AbstractCrudController
             IdField::new('id')->onlyOnIndex()
                 ->setLabel('ID'),
 
+            TextField::new('name')
+                ->setLabel('Titre'),
+
             // Enums
             ChoiceField::new('statut')
                 ->setChoices(array_combine(
@@ -31,15 +35,26 @@ class TrophyRoadCrudController extends AbstractCrudController
                 ))
                 ->setLabel('Statut'),
 
+            ChoiceField::new('type')
+                ->setChoices(array_combine(
+                    array_map(fn($e) => $e->name, RoadType::cases()),
+                    RoadType::cases()
+                ))
+                ->setFormTypeOptions([
+                    'placeholder' => '— Sélectionnez un type —',
+                    'required' => false,
+                ])
+                ->setLabel('Type'),
+
 
             // Relations
             AssociationField::new('project')
                 ->setCrudController(\App\Controller\Admin\ProjectCrudController::class)
-                ->setFormTypeOptions(['by_reference' => false])
+                ->setFormTypeOptions(['by_reference' => true])
                 ->autocomplete()
                 ->setLabel('Projets'),
 
-            // ➡️ Nouveau champ "Nombre de trophées"
+            // Champ visuelle "Nombre de trophées"
             Field::new('trophiesCount', 'Nombre de trophées')
                 ->onlyOnIndex()
                 ->formatValue(fn ($value, $entity) => $entity->getTrophiesCount()),
