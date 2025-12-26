@@ -3,6 +3,9 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Technology;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -12,6 +15,13 @@ use App\Enum\DataStatut;
 
 class TechnologyCrudController extends AbstractCrudController
 {
+    private RequestStack $requestStack;
+
+    public function __construct(RequestStack $requestStack)
+    {
+        $this->requestStack = $requestStack;
+    }
+
     public static function getEntityFqcn(): string
     {
         return Technology::class;
@@ -48,6 +58,12 @@ class TechnologyCrudController extends AbstractCrudController
                 ->onlyOnForms()
                 ->setLabel('Illustration de la technologie'),
 
+            Field::new('deleteIllustration')
+                ->setFormType(\Symfony\Component\Form\Extension\Core\Type\CheckboxType::class)
+                ->setFormTypeOptions(['mapped' => false])
+                ->onlyOnForms()
+                ->setLabel('Supprimer l\'illustration'),
+
             // Dates
             DateTimeField::new('createdAt')
                 ->onlyOnDetail()
@@ -66,5 +82,21 @@ class TechnologyCrudController extends AbstractCrudController
         return $actions
         // Affiche le bouton "Détail" dans la liste
         ->add(Crud::PAGE_INDEX, Action::DETAIL);
+    }
+
+    public function updateEntity(EntityManagerInterface $em, $entity): void
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        $data = $request->request->all('Technology');
+
+        // --- Illustration ---
+        if (!empty($data['deleteIllustration'])) {
+            $entity->setIllustrationName(null);
+            $entity->setIllustrationFile(null);
+        }
+
+        $entity->setUpdatedAt(new \DateTimeImmutable());
+
+        parent::updateEntity($em, $entity);
     }
 }

@@ -5,7 +5,7 @@ vich_uploader:
         projects_illustration_card:
             uri_prefix: /image/project/card
             upload_destination: '%kernel.project_dir%/public/image/project/card'
-            delete_on_remove: true
+            delete_on_remove: true 
             namer: vich_uploader.namer_origname
 
         projects_illustration_background:

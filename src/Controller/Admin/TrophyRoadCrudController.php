@@ -10,6 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\{AssociationField, DateTimeField, DateField, IdField, TextField, TextEditorField, ChoiceField, ImageField, Field, FormField, BooleanField};
 use App\Enum\DataStatut;
 use App\Enum\RoadType;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 
 class TrophyRoadCrudController extends AbstractCrudController
 {
@@ -20,6 +21,13 @@ class TrophyRoadCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
+        $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
+
+        $createTrophyRoadUrl = $adminUrlGenerator
+            ->setController(TrophyCrudController::class)
+            ->setAction('new')
+            ->generateUrl();
+
         return [
             IdField::new('id')->onlyOnIndex()
                 ->setLabel('ID'),
@@ -64,6 +72,7 @@ class TrophyRoadCrudController extends AbstractCrudController
                 ->setFormTypeOptions(['by_reference' => false])
                 ->autocomplete()
                 ->setLabel('Trophées')
+                ->setHelp('<a href="'.$createTrophyRoadUrl.'" target="_blank" class="btn btn-sm btn-primary mt-2">Ajouter un trophée</a>')
                 ->hideOnIndex(),
 
             // Dates

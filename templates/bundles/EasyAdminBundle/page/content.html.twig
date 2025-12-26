@@ -1,0 +1,42 @@
+{#
+  Template de base pour créer des pages personnalisées
+  Template original : vendor/easycorp/easyadmin-bundle/templates/page/content.html.twig
+
+  Utilisez ce template pour créer vos propres pages dans l'admin
+  Exemple : Dashboard personnalisé, pages de statistiques, etc.
+#}
+{% extends '@!EasyAdmin/page/content.html.twig' %}
+
+{% block body_class %}
+    {{ parent() }}
+    {# Classes CSS du body (par défaut: 'page-content') #}
+{% endblock %}
+
+{% block content_title %}
+    {{ parent() }}
+    {#
+      Titre de votre page personnalisée
+
+      Exemple:
+      Mon Dashboard Personnalisé
+    #}
+{% endblock %}
+
+{% block main %}
+    {{ parent() }}
+    {#
+      Contenu principal de votre page
+
+      Exemple:
+      <div class="row">
+          <div class="col-md-6">
+              <div class="card">
+                  <div class="card-body">
+                      <h3>Statistiques</h3>
+                      <p>Contenu personnalisé ici...</p>
+                  </div>
+              </div>
+          </div>
+      </div>
+    #}
+{% endblock %}

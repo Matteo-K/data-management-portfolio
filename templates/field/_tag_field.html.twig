@@ -1,0 +1,19 @@
+{% block tag_autocomplete_field_widget %}
+    <div class="col-md-12 col-xxl-12">
+        <div class="form-group">
+            <div class="d-flex align-items-end gap-2">
+                <div class="flex-grow-1">
+                    {{ form_widget(form) }}
+                </div>
+                <div>
+                    <button type="button"
+                            class="btn btn-secondary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#new-tag-modal">
+                        <i class="fa fa-plus"></i> Créer un tag
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -89,7 +89,8 @@ class Trophy
 
     public function __toString(): string
     {
-        return $this->getName();
+        $project = $this->trophyRoad?->getProject();
+        return ( $project ? ($project->getTitle() . " - " . $this->getPriority() . " | ") : "") . $this->getName();
     }
 
     function getStatut() : DataStatut {

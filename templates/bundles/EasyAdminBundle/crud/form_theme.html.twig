@@ -1,0 +1,174 @@
+{#
+  Surcharge du thème de formulaire EasyAdmin
+  Template original : vendor/easycorp/easyadmin-bundle/templates/crud/form_theme.html.twig
+
+  Ce fichier permet de personnaliser le rendu de TOUS les formulaires (new, edit)
+  Basé sur Bootstrap 5
+#}
+{% extends '@!EasyAdmin/crud/form_theme.html.twig' %}
+
+{# ========== FORM STRUCTURE ========== #}
+
+{% block form_start %}
+    {{ parent() }}
+    {#
+      Balise d'ouverture du formulaire <form>
+      Inclut automatiquement le champ "referrer" pour la navigation
+    #}
+{% endblock %}
+
+{% block form_end %}
+    {{ parent() }}
+    {# Balise de fermeture du formulaire </form> #}
+{% endblock %}
+
+{% block form_errors %}
+    {{ parent() }}
+    {# Affichage des erreurs de formulaire #}
+{% endblock %}
+
+{# ========== WIDGETS ========== #}
+
+{% block form_widget_simple %}
+    {{ parent() }}
+    {# Widget simple (input text, number, etc.) #}
+{% endblock %}
+
+{% block datetime_widget %}
+    {{ parent() }}
+    {# Widget pour les champs datetime #}
+{% endblock %}
+
+{% block date_widget %}
+    {{ parent() }}
+    {# Widget pour les champs date #}
+{% endblock %}
+
+{% block time_widget %}
+    {{ parent() }}
+    {# Widget pour les champs time #}
+{% endblock %}
+
+{% block file_widget %}
+    {{ parent() }}
+    {# Widget pour les champs file/upload #}
+{% endblock %}
+
+{# ========== ROWS ========== #}
+
+{% block form_row %}
+    {{ parent() }}
+    {#
+      Une ligne de formulaire complète (label + widget + erreurs + aide)
+
+      Personnalisation possible pour ajouter des classes, modifier la structure, etc.
+    #}
+{% endblock %}
+
+{# ========== LABELS ========== #}
+
+{% block form_label %}
+    {{ parent() }}
+    {#
+      Label d'un champ
+
+      Exemple de personnalisation :
+      {% if label is not same as(false) %}
+          <label for="{{ id }}" class="custom-label {{ required ? 'required' : '' }}">
+              {{ label|trans }}
+              {% if required %}<span class="text-danger">*</span>{% endif %}
+          </label>
+      {% endif %}
+    #}
+{% endblock %}
+
+{# ========== HELP TEXT ========== #}
+
+{% block form_help %}
+    {{ parent() }}
+    {# Texte d'aide sous un champ #}
+{% endblock %}
+
+{# ========== SPECIFIC FIELD TYPES ========== #}
+
+{% block textarea_widget %}
+    {{ parent() }}
+    {# Widget textarea #}
+{% endblock %}
+
+{% block choice_widget_collapsed %}
+    {{ parent() }}
+    {# Widget select (dropdown) #}
+{% endblock %}
+
+{% block choice_widget_expanded %}
+    {{ parent() }}
+    {# Widget checkbox/radio (choix multiples affichés) #}
+{% endblock %}
+
+{% block checkbox_widget %}
+    {{ parent() }}
+    {# Widget checkbox unique #}
+{% endblock %}
+
+{% block radio_widget %}
+    {{ parent() }}
+    {# Widget radio #}
+{% endblock %}
+
+{# ========== COLLECTION ========== #}
+
+{% block collection_widget %}
+    {{ parent() }}
+    {#
+      Widget pour les collections (un-à-plusieurs, plusieurs-à-plusieurs)
+      Permet d'ajouter/supprimer des items dynamiquement
+    #}
+{% endblock %}
+
+{% block collection_row %}
+    {{ parent() }}
+    {# Une ligne de collection #}
+{% endblock %}
+
+{# ========== EASYADMIN SPECIFIC ========== #}
+
+{% block ea_crud_widget %}
+    {{ parent() }}
+    {# Widget racine d'un formulaire CRUD EasyAdmin #}
+{% endblock %}
+
+{% block ea_autocomplete_widget %}
+    {{ parent() }}
+    {# Widget autocomplete (champs d'association) #}
+{% endblock %}
+
+{% block ea_text_editor_widget %}
+    {{ parent() }}
+    {# Widget éditeur de texte riche #}
+{% endblock %}
+
+{% block ea_code_editor_widget %}
+    {{ parent() }}
+    {# Widget éditeur de code #}
+{% endblock %}
+
+{% block ea_slug_widget %}
+    {{ parent() }}
+    {# Widget pour les champs slug #}
+{% endblock %}
+
+{#
+  PERSONNALISATION AVANCÉE :
+
+  Pour personnaliser un type de champ spécifique pour UNE SEULE entité,
+  utilisez les blocs avec préfixe :
+
+  {% block _provider_types_widget %}
+      Widget personnalisé uniquement pour le champ "types" de Provider
+  {% endblock %}
+
+  {% block _user_roles_row %}
+      Row personnalisée uniquement pour le champ "roles" de User
+  {% endblock %}
+#}

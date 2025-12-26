@@ -1,0 +1,28 @@
+{#
+  Surcharge du rendu d'une action (bouton d'action)
+  Template original : vendor/easycorp/easyadmin-bundle/templates/crud/action.html.twig
+
+  Personnalise l'affichage des boutons d'action (Nouveau, Éditer, Supprimer, etc.)
+#}
+{% extends '@!EasyAdmin/crud/action.html.twig' %}
+
+{#
+  Variables disponibles :
+  - action : L'objet ActionDto
+  - action.name : Nom de l'action (ex: 'new', 'edit', 'delete')
+  - action.label : Libellé de l'action
+  - action.icon : Icône de l'action
+  - action.linkUrl : URL de l'action
+  - action.cssClass : Classes CSS
+  - action.htmlAttributes : Attributs HTML supplémentaires
+
+  Pour personnaliser une action spécifique, utilisez une condition :
+
+  {% if action.name == 'new' %}
+      <a href="{{ action.linkUrl }}" class="btn btn-success">
+          <i class="fas fa-plus"></i> Créer un nouveau
+      </a>
+  {% else %}
+      {{ parent() }}
+  {% endif %}
+#}

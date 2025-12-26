@@ -1,0 +1,264 @@
+{#
+  Surcharge du layout principal EasyAdmin
+  Template original : vendor/easycorp/easyadmin-bundle/templates/layout.html.twig
+
+  Ce fichier contient TOUS les blocs disponibles pour personnaliser le layout complet de l'admin
+#}
+{% extends '@!EasyAdmin/layout.html.twig' %}
+
+{# ========== HEAD ========== #}
+
+{% block head_metas %}
+    {{ parent() }}
+    {# Ajouter des meta tags personnalisés #}
+{% endblock %}
+
+{% block page_title %}
+    {{ parent() }}
+    {# Personnaliser le titre de la page (balise <title>) #}
+{% endblock %}
+
+{% block head_stylesheets %}
+    {{ parent() }}
+    {# Ajouter des feuilles de style globales #}
+{% endblock %}
+
+{% block configured_stylesheets %}
+    {{ parent() }}
+    {# CSS configurés via Assets::addCssFile() dans le Dashboard #}
+{% endblock %}
+
+{% block head_favicon %}
+    {{ parent() }}
+    {# Changer le favicon #}
+{% endblock %}
+
+{% block head_javascript %}
+    {{ parent() }}
+    {# Ajouter du JavaScript dans le <head> #}
+{% endblock %}
+
+{% block importmap %}
+    {{ parent() }}
+    {{ importmap('app') }}
+    {# Import maps pour les assets (AssetMapper) #}
+{% endblock %}
+
+{% block configured_javascripts %}
+    {{ parent() }}
+    {# JavaScript configurés via Assets::addJsFile() dans le Dashboard #}
+{% endblock %}
+
+{% block configured_head_contents %}
+    {{ parent() }}
+    {# Contenu HTML personnalisé dans le <head> #}
+{% endblock %}
+
+{# ========== BODY ========== #}
+
+{% block body %}
+    {{ parent() }}
+    {# Surcharger tout le <body> (rarement utilisé) #}
+{% endblock %}
+
+{% block body_attr %}
+    {{ parent() }}
+    {# Attributs HTML de la balise <body> #}
+{% endblock %}
+
+{% block body_id %}
+    {{ parent() }}
+    {# ID de la balise <body> #}
+{% endblock %}
+
+{% block body_class %}
+    {{ parent() }}
+    {# Classes CSS de la balise <body> #}
+{% endblock %}
+
+{% block javascript_page_layout %}
+    {{ parent() }}
+    {# JavaScript pour le layout de la page #}
+{% endblock %}
+
+{% block javascript_page_color_scheme %}
+    {{ parent() }}
+    {# JavaScript pour le thème clair/sombre #}
+{% endblock %}
+
+{# ========== WRAPPER ========== #}
+
+{% block wrapper_wrapper %}
+    {{ parent() }}
+    {# Wrapper principal de toute l'interface #}
+{% endblock %}
+
+{% block flash_messages %}
+    {{ parent() }}
+    {# Messages flash (succès, erreurs, etc.) #}
+{% endblock %}
+
+{% block user_menu %}
+    {{ parent() }}
+    {# Menu utilisateur (dropdown en haut à droite) #}
+{% endblock %}
+
+{% block wrapper %}
+    {{ parent() }}
+    {# Wrapper du contenu (header + sidebar + main) #}
+{% endblock %}
+
+{# ========== RESPONSIVE HEADER ========== #}
+
+{% block responsive_header %}
+    {{ parent() }}
+    {# Header responsive (mobile/tablette) #}
+{% endblock %}
+
+{% block responsive_header_logo %}
+    {{ parent() }}
+    {# Logo dans le header responsive #}
+{% endblock %}
+
+{# ========== SIDEBAR ========== #}
+
+{% block sidebar %}
+    {{ parent() }}
+    {# Barre latérale complète #}
+{% endblock %}
+
+{% block header %}
+    {{ parent() }}
+    {# Header dans la sidebar #}
+{% endblock %}
+
+{% block header_navbar %}
+    {{ parent() }}
+    {# Navbar du header #}
+{% endblock %}
+
+{% block header_logo %}
+    {{ parent() }}
+    {# Logo dans le header de la sidebar #}
+    {# Exemple de personnalisation :
+    <a class="logo" title="Mon Admin" href="{{ path(ea().dashboardRouteName) }}">
+        <img src="{{ asset('images/logo.svg') }}" alt="Logo">
+    </a>
+    #}
+{% endblock %}
+
+{% block main_menu_wrapper %}
+    {{ parent() }}
+    {# Wrapper du menu principal #}
+{% endblock %}
+
+{# ========== MAIN CONTENT ========== #}
+
+{% block main_content_wrapper %}
+    {{ parent() }}
+    {# Wrapper du contenu principal #}
+{% endblock %}
+
+{% block content_top_header %}
+    {{ parent() }}
+    {# Header du contenu (barre de recherche + menu utilisateur) #}
+{% endblock %}
+
+{% block search_wrapper %}
+    {{ parent() }}
+    {# Wrapper de la barre de recherche #}
+{% endblock %}
+
+{% block search %}
+    {{ parent() }}
+    {# Barre de recherche #}
+{% endblock %}
+
+{% block search_form %}
+    {{ parent() }}
+    {# Formulaire de recherche #}
+{% endblock %}
+
+{% block search_form_filters %}
+    {{ parent() }}
+    {# Filtres dans le formulaire de recherche #}
+{% endblock %}
+
+{% block header_custom_menu_wrapper %}
+    {{ parent() }}
+    {# Wrapper du menu personnalisé dans le header #}
+{% endblock %}
+
+{% block header_custom_menu %}
+    {{ parent() }}
+    {# Menu personnalisé dans le header (menu utilisateur desktop) #}
+{% endblock %}
+
+{% block settings_dropdown_wrapper %}
+    {{ parent() }}
+    {# Wrapper du dropdown des paramètres (langue, thème) #}
+{% endblock %}
+
+{# ========== CONTENT ========== #}
+
+{% block content %}
+    {{ parent() }}
+    {# Contenu principal de la page #}
+{% endblock %}
+
+{% block content_header_wrapper %}
+    {{ parent() }}
+    {# Wrapper du header du contenu #}
+{% endblock %}
+
+{% block content_header %}
+    {{ parent() }}
+    {# Header du contenu (titre + actions) #}
+{% endblock %}
+
+{% block content_title %}
+    {{ parent() }}
+    {# Titre du contenu (H1) #}
+{% endblock %}
+
+{% block content_help %}
+    {{ parent() }}
+    {# Icône d'aide à côté du titre #}
+{% endblock %}
+
+{% block page_actions_wrapper %}
+    {{ parent() }}
+    {# Wrapper des actions de page #}
+{% endblock %}
+
+{% block page_actions %}
+    {{ parent() }}
+    {# Actions de page (boutons Nouveau, Exporter, etc.) #}
+{% endblock %}
+
+{% block main %}
+    {{ parent() }}
+    {# Contenu principal de la page (body) #}
+{% endblock %}
+
+{% block content_footer_wrapper %}
+    {{ parent() }}
+    {# Wrapper du footer du contenu #}
+{% endblock %}
+
+{% block content_footer %}
+    {{ parent() }}
+    {# Footer du contenu #}
+{% endblock %}
+
+{# ========== BODY JAVASCRIPT ========== #}
+
+{% block body_javascript %}
+    {{ parent() }}
+    {# JavaScript en fin de <body> #}
+{% endblock %}
+
+{% block configured_body_contents %}
+    {{ parent() }}
+    {# Contenu HTML personnalisé en fin de <body> #}
+{% endblock %}

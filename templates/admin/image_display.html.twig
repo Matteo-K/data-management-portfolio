@@ -1,0 +1,13 @@
+{% set path = field.customOptions.path ?? '/uploads/' %}
+
+<div class="ea-image-field">
+    {% if field.value %}
+        <img
+            src="{{ asset(path ~ field.value) }}"
+            alt="{{ field.value }}"
+            style="max-width: 150px; border-radius: 4px;"
+        >
+    {% else %}
+        <span class="badge bg-secondary">Aucune image</span>
+    {% endif %}
+</div>

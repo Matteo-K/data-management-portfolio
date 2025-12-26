@@ -1,0 +1,27 @@
+{#
+  Surcharge de la pagination
+  Template original : vendor/easycorp/easyadmin-bundle/templates/crud/paginator.html.twig
+
+  Personnalise l'affichage de la pagination en bas des listes
+#}
+{% extends '@!EasyAdmin/crud/paginator.html.twig' %}
+
+{#
+  Le template de pagination est complexe. Pour le personnaliser complètement,
+  copiez le contenu original et modifiez-le selon vos besoins.
+
+  Variables disponibles :
+  - paginator : Objet EntityPaginator
+  - paginator.currentPage : Page actuelle
+  - paginator.numPages : Nombre total de pages
+  - paginator.pageSize : Nombre d'items par page
+  - paginator.numResults : Nombre total de résultats
+  - paginator.hasNextPage : Booléen, y a-t-il une page suivante
+  - paginator.hasPreviousPage : Booléen, y a-t-il une page précédente
+
+  Pour personnaliser juste le texte ou le style, utilisez le CSS dans public/css/admin.css :
+
+  .content-panel-footer .pagination {
+      // Styles personnalisés
+  }
+#}

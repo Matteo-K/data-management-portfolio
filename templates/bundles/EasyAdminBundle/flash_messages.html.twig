@@ -1,0 +1,45 @@
+{#
+  Surcharge des messages flash (succès, erreurs, info, warning)
+  Template original : vendor/easycorp/easyadmin-bundle/templates/flash_messages.html.twig
+
+  Utilisez ce fichier pour personnaliser l'affichage des messages flash
+#}
+{% extends '@!EasyAdmin/flash_messages.html.twig' %}
+
+{#
+  Personnalisation complète :
+
+  {% set flash_messages = app.flashes %}
+
+  {% if flash_messages|length > 0 %}
+      <div id="flash-messages" class="custom-flash-messages">
+          {% for label, messages in flash_messages %}
+              {% for message in messages %}
+                  {% set translated_message = message|trans %}
+
+                  <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                      {% if label == 'success' %}
+                          <i class="fas fa-check-circle"></i>
+                      {% elseif label == 'danger' or label == 'error' %}
+                          <i class="fas fa-exclamation-circle"></i>
+                      {% elseif label == 'warning' %}
+                          <i class="fas fa-exclamation-triangle"></i>
+                      {% elseif label == 'info' %}
+                          <i class="fas fa-info-circle"></i>
+                      {% endif %}
+
+                      {{ translated_message|raw }}
+
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+              {% endfor %}
+          {% endfor %}
+      </div>
+  {% endif %}
+
+  Types de messages disponibles :
+  - success : Opération réussie
+  - danger ou error : Erreur
+  - warning : Avertissement
+  - info : Information
+#}

@@ -3,7 +3,11 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Trophy;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use App\Controller\Admin\TrophyRoadCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Filters;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -14,6 +18,13 @@ use App\Enum\TrophyType;
 
 class TrophyCrudController extends AbstractCrudController
 {
+    private RequestStack $requestStack;
+
+    public function __construct(RequestStack $requestStack)
+    {
+        $this->requestStack = $requestStack;
+    }
+
     public static function getEntityFqcn(): string
     {
         return Trophy::class;
@@ -38,7 +49,7 @@ class TrophyCrudController extends AbstractCrudController
                 ->hideOnIndex(),
 
             BooleanField::new('accomplished')
-                ->setLabel('Est t\'accompli ?'),
+                ->setLabel('Est t\' il accompli ?'),
 
             NumberField::new('priority')->setFormTypeOptions(['required' => true])
                 ->setLabel('Priorité'),
@@ -65,6 +76,12 @@ class TrophyCrudController extends AbstractCrudController
                 ->onlyOnForms()
                 ->setLabel('Illustration du trophée'),
 
+            Field::new('deleteIllustration')
+                ->setFormType(\Symfony\Component\Form\Extension\Core\Type\CheckboxType::class)
+                ->setFormTypeOptions(['mapped' => false])
+                ->onlyOnForms()
+                ->setLabel('Supprimer l\'illustration'),
+
             // Dates
             DateTimeField::new('createdAt')
                 ->onlyOnDetail()
@@ -86,10 +103,33 @@ class TrophyCrudController extends AbstractCrudController
         ];
     }
 
+    public function configureFilters(Filters $filters): Filters
+    {
+        return $filters
+            ->add('trophyRoad')
+        ;
+    }
+
     public function configureActions(Actions $actions): Actions
     {
         return $actions
         // Affiche le bouton "Détail" dans la liste
         ->add(Crud::PAGE_INDEX, Action::DETAIL);
+    }
+
+    public function updateEntity(EntityManagerInterface $em, $entity): void
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        $data = $request->request->all('Trophy');
+
+        // --- Logo ---
+        if (!empty($data['deleteIllustration'])) {
+            $entity->setIllustrationName(null);
+            $entity->setIllustrationFile(null);
+        }
+
+        $entity->setUpdatedAt(new \DateTimeImmutable());
+
+        parent::updateEntity($em, $entity);
     }
 }

@@ -1,0 +1,85 @@
+{#
+  Surcharge de la page NEW (création d'une nouvelle entité)
+  Template original : vendor/easycorp/easyadmin-bundle/templates/crud/new.html.twig
+
+  Ce fichier contient TOUS les blocs disponibles pour personnaliser la page de création
+#}
+{% extends '@!EasyAdmin/crud/new.html.twig' %}
+
+{# ========== BODY ATTRIBUTES ========== #}
+
+{% block body_id %}
+    {{ parent() }}
+    {# ID du body (ex: ea-new-Provider) #}
+{% endblock %}
+
+{% block body_class %}
+    {{ parent() }}
+    {# Classes CSS du body #}
+{% endblock %}
+
+{# ========== HEAD ========== #}
+
+{% block head_javascript %}
+    {{ parent() }}
+    {# JavaScript dans le <head> (includes form.js) #}
+{% endblock %}
+
+{% block configured_head_contents %}
+    {{ parent() }}
+    {# Contenu HTML dans le <head> #}
+{% endblock %}
+
+{% block configured_body_contents %}
+    {{ parent() }}
+    {# Contenu HTML en fin de <body> #}
+{% endblock %}
+
+{% block configured_stylesheets %}
+    {{ parent() }}
+    {# Feuilles de style spécifiques à la page new #}
+{% endblock %}
+
+{% block configured_javascripts %}
+    {{ parent() }}
+    {# JavaScript spécifiques à la page new #}
+{% endblock %}
+
+{# ========== CONTENT ========== #}
+
+{% block content_title %}
+    {{ parent() }}
+    {# Titre de la page (H1) #}
+{% endblock %}
+
+{% block page_actions %}
+    {{ parent() }}
+    {# Actions de page (ex: bouton Retour) #}
+{% endblock %}
+
+{# ========== MAIN CONTENT ========== #}
+
+{% block main %}
+    {{ parent() }}
+    {# Contenu principal (formulaire) #}
+
+    {% if ea.crud.controllerFqcn in ['App\\Controller\\Admin\\ProviderCrudController'] %}
+        {% include 'components/tag/_new_tag_modal.html.twig' %}
+    {% endif %}
+{% endblock %}
+
+{% block new_form %}
+    {{ parent() }}
+    {#
+      Formulaire de création complet
+      Variable disponible : new_form
+
+      Exemple de personnalisation :
+      {{ form_start(new_form) }}
+          <div class="custom-form-wrapper">
+              {{ form_widget(new_form) }}
+          </div>
+          <button type="submit" class="btn btn-success">Créer</button>
+      {{ form_end(new_form) }}
+    #}
+{% endblock %}

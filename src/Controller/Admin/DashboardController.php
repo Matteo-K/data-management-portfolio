@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller\Admin;
 
-use App\Entity\{Collaborator, Project, ProjectTechnology, School, Society, Technology, Trophy, TrophyRoad};
+use App\Entity\{Collaborator, Project, ProjectTechnology, School, Society, Technology, Trophy, TrophyRoad, Tag};
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use EasyCorp\Bundle\EasyAdminBundle\Config\{Dashboard, MenuItem};
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
@@ -28,6 +28,7 @@ class DashboardController extends AbstractDashboardController
     {
         yield MenuItem::section('Gestion des données');
         yield MenuItem::linkToCrud('Projects', 'fas fa-folder', Project::class);
+        yield MenuItem::linkToCrud('Tags', 'fas fa-ticket', Tag::class);
         yield MenuItem::linkToCrud('Collaborators', 'fas fa-user', Collaborator::class);
         yield MenuItem::linkToCrud('Technologies', 'fas fa-laptop-code', Technology::class)
             ->setDefaultSort(['priority' => 'ASC']);
@@ -35,7 +36,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Schools', 'fas fa-school', School::class);
         yield MenuItem::linkToCrud('Trophies', 'fas fa-trophy', Trophy::class);
         yield MenuItem::linkToCrud('Routes des trophées', 'fas fa-road', TrophyRoad::class);
-        yield MenuItem::linkToCrud('ProjectTechnologies', 'fas fa-laptop-code', ProjectTechnology::class);
 
         yield MenuItem::section('Gestion des données');
         yield MenuItem::linkToRoute('Backup', 'fas fa-file-export', 'data.export');

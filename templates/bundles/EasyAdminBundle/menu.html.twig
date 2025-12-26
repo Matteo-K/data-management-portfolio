@@ -1,0 +1,61 @@
+{#
+  Surcharge du menu principal EasyAdmin
+  Template original : vendor/easycorp/easyadmin-bundle/templates/menu.html.twig
+
+  Ce fichier contient TOUS les blocs disponibles pour personnaliser le menu
+#}
+{% extends '@!EasyAdmin/menu.html.twig' %}
+
+{% block main_menu_before %}
+    {{ parent() }}
+    {# Contenu AVANT le menu (ex: bannière, logo supplémentaire) #}
+{% endblock %}
+
+{% block main_menu %}
+    {{ parent() }}
+    {#
+      Menu complet - Affiche tous les items définis dans configureMenuItems()
+
+      Exemple de personnalisation :
+      {% for menuItem in ea().mainMenu.items %}
+          <li class="custom-menu-item">
+              <a href="{{ menuItem.linkUrl }}">{{ menuItem.label|trans }}</a>
+          </li>
+      {% endfor %}
+    #}
+{% endblock %}
+
+{% block menu_item %}
+    {{ parent() }}
+    {#
+      Un item de menu individuel
+      Variables disponibles : menuItem (MenuItemDto)
+
+      Propriétés utiles :
+      - menuItem.label : Libellé
+      - menuItem.linkUrl : URL
+      - menuItem.icon : Icône
+      - menuItem.isSelected : Si l'item est actif
+      - menuItem.hasSubItems : Si l'item a des sous-menus
+      - menuItem.isMenuSection : Si c'est une section (titre)
+    #}
+{% endblock %}
+
+{% block menu_subitem %}
+    {{ parent() }}
+    {# Un sous-item de menu (dans un submenu) #}
+{% endblock %}
+
+{% block main_menu_after %}
+    {{ parent() }}
+    {#
+      Contenu APRÈS le menu
+
+      Exemple : Ajouter un lien vers le site public
+      <div class="menu-footer">
+          <a href="{{ path('home') }}" class="btn btn-link">
+              <i class="fa fa-arrow-left"></i> Retour au site
+          </a>
+      </div>
+    #}
+{% endblock %}

@@ -4,6 +4,9 @@ namespace App\Controller\Admin;
 
 use App\Entity\School;
 use App\Enum\DataStatut;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -12,6 +15,13 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\{AssociationField, DateTimeField, IdFi
 
 class SchoolCrudController extends AbstractCrudController
 {
+    private RequestStack $requestStack;
+
+    public function __construct(RequestStack $requestStack)
+    {
+        $this->requestStack = $requestStack;
+    }
+
     public static function getEntityFqcn(): string
     {
         return School::class;
@@ -51,6 +61,12 @@ class SchoolCrudController extends AbstractCrudController
                 ->onlyOnForms()
                 ->setLabel('Logo'),
 
+            Field::new('deleteLogo')
+                ->setFormType(\Symfony\Component\Form\Extension\Core\Type\CheckboxType::class)
+                ->setFormTypeOptions(['mapped' => false])
+                ->onlyOnForms()
+                ->setLabel('Supprimer le logo'),
+
             // Dates
             DateTimeField::new('createdAt')
                 ->onlyOnDetail()
@@ -75,5 +91,21 @@ class SchoolCrudController extends AbstractCrudController
         return $actions
         // Affiche le bouton "Détail" dans la liste
         ->add(Crud::PAGE_INDEX, Action::DETAIL);
+    }
+
+    public function updateEntity(EntityManagerInterface $em, $entity): void
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        $data = $request->request->all('School');
+
+        // --- Logo ---
+        if (!empty($data['deleteLogo'])) {
+            $entity->setLogoName(null);
+            $entity->setLogoFile(null);
+        }
+
+        $entity->setUpdatedAt(new \DateTimeImmutable());
+
+        parent::updateEntity($em, $entity);
     }
 }

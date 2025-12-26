@@ -1,0 +1,140 @@
+{#
+  Surcharge de la page INDEX (liste des entités)
+  Template original : vendor/easycorp/easyadmin-bundle/templates/crud/index.html.twig
+
+  Ce fichier contient TOUS les blocs disponibles pour personnaliser la page de liste
+#}
+{% extends '@!EasyAdmin/crud/index.html.twig' %}
+
+{# ========== BODY ATTRIBUTES ========== #}
+
+{% block body_id %}
+    {{ parent() }}
+    {# ID du body (ex: ea-index-Provider) #}
+{% endblock %}
+
+{% block body_class %}
+    {{ parent() }}
+    {# Classes CSS du body #}
+{% endblock %}
+
+{# ========== HEAD ========== #}
+
+{% block configured_head_contents %}
+    {{ parent() }}
+    {# Contenu HTML dans le <head> #}
+{% endblock %}
+
+{% block configured_body_contents %}
+    {{ parent() }}
+    {# Contenu HTML en fin de <body> #}
+{% endblock %}
+
+{% block configured_stylesheets %}
+    {{ parent() }}
+    {# Feuilles de style spécifiques à la page index #}
+{% endblock %}
+
+{% block configured_javascripts %}
+    {{ parent() }}
+    {# JavaScript spécifiques à la page index #}
+{% endblock %}
+
+{# ========== CONTENT ========== #}
+
+{% block content_title %}
+    {{ parent() }}
+    {# Titre de la page (H1) #}
+{% endblock %}
+
+{% block page_actions %}
+    {{ parent() }}
+    {# Actions de page (filtres + actions globales + actions batch) #}
+{% endblock %}
+
+{% block filters %}
+    {{ parent() }}
+    {# Bouton des filtres #}
+{% endblock %}
+
+{% block global_actions %}
+    {{ parent() }}
+    {#
+      Actions globales (ex: bouton "Nouveau")
+
+      Exemple de personnalisation :
+      <div class="global-actions">
+          <a href="{{ ea_url().setAction('new') }}" class="btn btn-primary">
+              <i class="fa fa-plus"></i> Créer un nouveau
+          </a>
+      </div>
+    #}
+{% endblock %}
+
+{% block batch_actions %}
+    {{ parent() }}
+    {# Actions batch (actions sur plusieurs entités sélectionnées) #}
+{% endblock %}
+
+{# ========== MAIN CONTENT ========== #}
+
+{% block main %}
+    {{ parent() }}
+    {# Contenu principal (tableau + pagination) #}
+{% endblock %}
+
+{# ========== TABLE ========== #}
+
+{% block table_head %}
+    {{ parent() }}
+    {# En-tête du tableau (<thead>) #}
+{% endblock %}
+
+{% block table_body %}
+    {{ parent() }}
+    {# Corps du tableau (<tbody>) #}
+{% endblock %}
+
+{% block entity_row_attributes %}
+    {{ parent() }}
+    {#
+      Attributs HTML de chaque ligne du tableau
+
+      Exemple : Ajouter une classe si l'entité est inactive
+      {% if entity.instance.active == false %}
+          class="table-danger"
+      {% endif %}
+    #}
+{% endblock %}
+
+{% block entity_actions %}
+    {{ parent() }}
+    {#
+      Actions pour chaque entité (colonne d'actions)
+      Par défaut : boutons Voir, Éditer, Supprimer
+    #}
+{% endblock %}
+
+{% block table_body_empty %}
+    {{ parent() }}
+    {# Affichage quand il n'y a aucun résultat #}
+{% endblock %}
+
+{% block table_footer %}
+    {{ parent() }}
+    {# Footer du tableau (<tfoot>) #}
+{% endblock %}
+
+{# ========== PAGINATION ========== #}
+
+{% block paginator %}
+    {{ parent() }}
+    {# Pagination en bas de page #}
+{% endblock %}
+
+{# ========== MODALS ========== #}
+
+{% block delete_form %}
+    {{ parent() }}
+    {# Formulaire de suppression (modal) #}
+{% endblock %}

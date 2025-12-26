@@ -1,0 +1,95 @@
+{#
+  Surcharge de la page EDIT (édition d'une entité)
+  Template original : vendor/easycorp/easyadmin-bundle/templates/crud/edit.html.twig
+
+  Ce fichier contient TOUS les blocs disponibles pour personnaliser la page d'édition
+#}
+{% extends '@!EasyAdmin/crud/edit.html.twig' %}
+
+{# ========== BODY ATTRIBUTES ========== #}
+
+{% block body_id %}
+    {{ parent() }}
+    {# ID du body (ex: ea-edit-Provider-123) #}
+{% endblock %}
+
+{% block body_class %}
+    {{ parent() }}
+    {# Classes CSS du body #}
+{% endblock %}
+
+{# ========== HEAD ========== #}
+
+{% block head_javascript %}
+    {{ parent() }}
+    {# JavaScript dans le <head> (includes form.js) #}
+{% endblock %}
+
+{% block configured_head_contents %}
+    {{ parent() }}
+    {# Contenu HTML dans le <head> #}
+{% endblock %}
+
+{% block configured_body_contents %}
+    {{ parent() }}
+    {# Contenu HTML en fin de <body> #}
+{% endblock %}
+
+{% block configured_stylesheets %}
+    {{ parent() }}
+    {# Feuilles de style spécifiques à la page edit #}
+{% endblock %}
+
+{% block configured_javascripts %}
+    {{ parent() }}
+    {# JavaScript spécifiques à la page edit #}
+{% endblock %}
+
+{# ========== CONTENT ========== #}
+
+{% block content_title %}
+    {{ parent() }}
+    {#
+      Titre de la page (H1)
+
+      Exemple de personnalisation :
+      Éditer : {{ entity.instance.name }}
+    #}
+{% endblock %}
+
+{% block page_actions %}
+    {{ parent() }}
+    {# Actions de page (ex: bouton Retour, Supprimer) #}
+{% endblock %}
+
+{# ========== MAIN CONTENT ========== #}
+
+{% block main %}
+    {{ parent() }}
+    {# Contenu principal (formulaire + bouton supprimer) #}
+
+    {% if ea.crud.controllerFqcn in ['App\\Controller\\Admin\\ProviderCrudController'] %}
+        {% include 'components/tag/_new_tag_modal.html.twig' %}
+    {% endif %}
+{% endblock %}
+
+{% block edit_form %}
+    {{ parent() }}
+    {#
+      Formulaire d'édition complet
+      Variable disponible : edit_form
+
+      Exemple de personnalisation :
+      {{ form_start(edit_form) }}
+          <div class="custom-form-wrapper">
+              {{ form_widget(edit_form) }}
+          </div>
+          <button type="submit" class="btn btn-primary">Enregistrer</button>
+      {{ form_end(edit_form) }}
+    #}
+{% endblock %}
+
+{% block delete_form %}
+    {{ parent() }}
+    {# Formulaire/bouton de suppression #}
+{% endblock %}

@@ -8,6 +8,7 @@ use App\Repository\ProjectRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -32,7 +33,11 @@ class Project
     private ?string $title = null;
 
     #[Groups(['project'])]
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $shortDescription = null;
+
+    #[Groups(['project'])]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
     #[Groups(['project'])]
@@ -105,6 +110,13 @@ class Project
     #[ORM\Column(nullable: false)]
     private int $priority;
 
+    /**
+     * @var Collection<int, Tag>
+     */
+    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'projects')]
+    private Collection $tags;
+
+
     public function __construct()
     {
         $this->priority = 0;
@@ -112,6 +124,7 @@ class Project
         $this->projectTechnologies = new ArrayCollection();
         $this->collaborators = new ArrayCollection();
         $this->trophyRoads = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -155,6 +168,18 @@ class Project
     public function setTitle(string $title): static
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function getShortDescription(): ?string
+    {
+        return $this->shortDescription;
+    }
+
+    public function setShortDescription(?string $shortDescription): static
+    {
+        $this->shortDescription = $shortDescription;
 
         return $this;
     }
@@ -431,6 +456,30 @@ class Project
     public function setPriority(int $priority): static
     {
         $this->priority = $priority;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Tag>
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tag $tag): static
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags->add($tag);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): static
+    {
+        $this->tags->removeElement($tag);
 
         return $this;
     }
