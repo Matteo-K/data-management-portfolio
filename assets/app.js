@@ -13,3 +13,4 @@ import './styles/bootstrap.css'
 // start the Stimulus application
 import './bootstrap';
 
+import './admin/sortable-collections';

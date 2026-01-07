@@ -35,6 +35,7 @@ class ManageDataController extends AbstractController
             'technology' => ['class' => \App\Entity\Technology::class, 'group' => 'technology'],
             'trophy' => ['class' => \App\Entity\Trophy::class, 'group' => 'trophy'],
             'trophyRoad' => ['class' => \App\Entity\TrophyRoad::class, 'group' => 'trophyRoad'],
+            'tag' => ['class' => \App\Entity\Tag::class, 'group' => 'tag'],
         ];
 
         $zipFile = tempnam(sys_get_temp_dir(), 'export_') . '.zip';

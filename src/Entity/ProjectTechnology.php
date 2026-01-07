@@ -26,7 +26,7 @@ class ProjectTechnology
     private ?Project $project = null;
 
     #[Groups(['projectTechnology'])]
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'projectTechnologies')]
     private ?Technology $technologie = null;
 
     #[Groups(['projectTechnology'])]
@@ -44,10 +44,11 @@ class ProjectTechnology
     public function __toString(): string
     {
         return "#" . $this->getId() . " --- "
-            . ($this->getProject() != null ? ($this->getProject()->getTitle() . " --- ") : "")
-            . $this->getPourcentageUsing() . '% de ' . ($this->getTechnologie()->__toString() ?? 'Technologie anonyme')
-        ;
+            . ($this->getProject()?->getTitle() ?? 'Projet inconnu') . " --- "
+            . ($this->getPourcentageUsing() ?? 0) . '% de '
+            . ($this->getTechnologie()?->__toString() ?? 'Technologie anonyme');
     }
+
 
     public function __construct() {
         $this->statut = DataStatut::ACTIF;

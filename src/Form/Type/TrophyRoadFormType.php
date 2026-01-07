@@ -41,6 +41,7 @@ class TrophyRoadFormType extends AbstractType
                 'by_reference' => false,
                 'label' => 'Trophées',
                 'prototype' => true,
+                'attr' => ['data-sortable-collection' => 'true'],
             ])
         ;
     }

@@ -41,7 +41,11 @@ class Project
     private ?string $description = null;
 
     #[Groups(['project'])]
-    #[ORM\OneToMany(targetEntity: ProjectTechnology::class, mappedBy: 'project')]
+    #[ORM\OneToMany(
+        targetEntity: ProjectTechnology::class,
+        mappedBy: 'project',
+        cascade: ['persist']
+    )]
     private Collection $projectTechnologies;
 
     #[Groups(['project'])]
@@ -113,6 +117,7 @@ class Project
     /**
      * @var Collection<int, Tag>
      */
+    #[Groups(['project'])]
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'projects')]
     private Collection $tags;
 

@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\{Dashboard, MenuItem};
 use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 
 #[AdminDashboard]
@@ -23,6 +24,13 @@ class DashboardController extends AbstractDashboardController
         return Dashboard::new()
             ->setTitle('Portfolio Matteo-K');
     }
+
+    public function configureCrud(): Crud
+    {
+        return Crud::new()
+            ->addFormTheme('admin/form/sortable_collection.html.twig');
+    }
+
 
     public function configureMenuItems(): iterable
     {

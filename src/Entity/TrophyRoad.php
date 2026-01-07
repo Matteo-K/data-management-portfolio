@@ -37,7 +37,13 @@ class TrophyRoad
     private ?Project $project = null;
 
     #[Groups(['trophyRoad'])]
-    #[ORM\OneToMany(targetEntity: Trophy::class, mappedBy: 'trophyRoad')]
+        #[ORM\OneToMany(
+        mappedBy: 'trophyRoad',
+        targetEntity: Trophy::class,
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true
+    )]
+    #[ORM\OrderBy(['priority' => 'ASC'])]
     private Collection $trophies;
 
     #[Groups(['trophyRoad'])]

@@ -7,6 +7,7 @@ use App\Enum\TrophyType;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\TrophyRepository;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -14,6 +15,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: TrophyRepository::class)]
 #[Vich\Uploadable]
 #[ORM\HasLifecycleCallbacks]
+#[ORM\Index(name: 'priority_idx', columns: ['priority'])]
 class Trophy
 {
     #[ORM\Id]
@@ -58,10 +60,12 @@ class Trophy
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[Groups(['trophy'])]
+    #[Gedmo\SortableGroup]
     #[ORM\ManyToOne(inversedBy: 'trophies')]
     private ?TrophyRoad $trophyRoad = null;
 
     #[Groups(['trophy'])]
+    #[Gedmo\SortablePosition]
     #[ORM\Column(nullable: false)]
     private int $priority;
 

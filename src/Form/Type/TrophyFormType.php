@@ -63,11 +63,10 @@ class TrophyFormType extends AbstractType
                 "expanded" => true,
                 "multiple" => false
             ])
-
-            ->add("priority", IntegerType::class, [
-                "label" => "Priorité",
-                "required" => true
-            ])
+            ->add('priority', IntegerType::class, [
+                'label' => 'Priorité',
+                'required' => true,
+            ]);
         ;
     }
 

@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Enum\DataStatut;
 use App\Repository\TechnologyRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -50,10 +52,15 @@ class Technology
     #[Groups(['technology'])]
     #[ORM\Column(nullable: false)]
     private int $priority;
+    
+    #[Groups(['technology'])]
+    #[ORM\OneToMany(targetEntity: ProjectTechnology::class, mappedBy: 'technologie')]
+    private Collection $projectTechnologies;
 
     public function __construct() {
         $this->priority = 0;
         $this->statut = DataStatut::ACTIF;
+        $this->projectTechnologies = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -76,7 +83,7 @@ class Technology
 
     public function __toString(): string
     {
-        return $this->getName();
+        return $this->name ?? 'Technologie inconnue';
     }
 
     function getStatut() : DataStatut {
@@ -170,6 +177,30 @@ class Technology
     {
         $this->priority = $priority;
 
+        return $this;
+    }
+
+    public function getProjectTechnologies(): Collection
+    {
+        return $this->projectTechnologies;
+    }
+
+    public function addProjectTechnology(ProjectTechnology $projectTechnology): self
+    {
+        if (!$this->projectTechnologies->contains($projectTechnology)) {
+            $this->projectTechnologies->add($projectTechnology);
+            $projectTechnology->setTechnologie($this);
+        }
+        return $this;
+    }
+
+    public function removeProjectTechnology(ProjectTechnology $projectTechnology): self
+    {
+        if ($this->projectTechnologies->removeElement($projectTechnology)) {
+            if ($projectTechnology->getTechnologie() === $this) {
+                $projectTechnology->setTechnologie(null);
+            }
+        }
         return $this;
     }
 }

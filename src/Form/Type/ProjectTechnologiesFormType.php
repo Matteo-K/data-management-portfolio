@@ -9,6 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class ProjectTechnologiesFormType extends AbstractType
 {
@@ -22,6 +23,7 @@ class ProjectTechnologiesFormType extends AbstractType
                 'label' => 'Technologie',
                 'class' => Technology::class,
                 'choice_label' => 'name',
+                'placeholder' => 'Select a Technology',
             ])
         ;
     }
