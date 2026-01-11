@@ -107,7 +107,12 @@ class Project
     private Collection $collaborators;
 
     #[Groups(['project'])]
-    #[ORM\OneToMany(targetEntity: TrophyRoad::class, mappedBy: 'project')]
+    #[ORM\OneToMany(
+        targetEntity: TrophyRoad::class,
+        mappedBy: 'project',
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true
+    )]
     private Collection $trophyRoads;
 
     #[Groups(['project'])]
